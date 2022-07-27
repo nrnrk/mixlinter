@@ -1,7 +1,7 @@
 # mixlinter
 
 ```bash
-go install github.com/nrnrk/mixlinter/cmd/mixlinter
+go install github.com/nrnrk/mixlinter/cmd/mixlinter@latest
 ```
 
 ```bash
