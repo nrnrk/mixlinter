@@ -156,7 +156,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 											fields = append(fields, t.Sel.Name)
 										case *ast.StarExpr:
 											if tse, ok := t.X.(*ast.SelectorExpr); ok {
-												if strings.HasPrefix(tse.Sel.Name, "XXX_") {
+												if !ast.IsExported(tse.Sel.Name) {
 													continue
 												}
 												fields = append(fields, tse.Sel.Name)
@@ -186,7 +186,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 									fields = append(fields, t.Sel.Name)
 								case *ast.StarExpr:
 									if tse, ok := t.X.(*ast.SelectorExpr); ok {
-										if strings.HasPrefix(tse.Sel.Name, "XXX_") {
+										if !ast.IsExported(tse.Sel.Name) {
 											continue
 										}
 										fields = append(fields, tse.Sel.Name)
@@ -276,13 +276,13 @@ func addFields(compositeLitType *ast.SelectorExpr, nodeFile *ast.File) []string 
 								if len(f.Names) == 0 {
 									switch t := f.Type.(type) {
 									case *ast.SelectorExpr:
-										if strings.HasPrefix(t.Sel.Name, "XXX_") {
+										if !ast.IsExported(t.Sel.Name) {
 											continue
 										}
 										fields = append(fields, t.Sel.Name)
 									case *ast.StarExpr:
 										if tse, ok := t.X.(*ast.SelectorExpr); ok {
-											if strings.HasPrefix(tse.Sel.Name, "XXX_") {
+											if !ast.IsExported(tse.Sel.Name) {
 												continue
 											}
 											fields = append(fields, tse.Sel.Name)
@@ -291,7 +291,7 @@ func addFields(compositeLitType *ast.SelectorExpr, nodeFile *ast.File) []string 
 										fmt.Printf("sf:%T\n", f.Type)
 									}
 								} else {
-									if strings.HasPrefix(f.Names[0].Name, "XXX_") {
+									if !ast.IsExported(f.Names[0].Name) {
 										continue
 									}
 									fields = append(fields, f.Names[0].Name)

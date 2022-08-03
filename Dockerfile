@@ -1,6 +1,6 @@
 FROM golang:1.12 as builder
 
-WORKDIR /go/src/github.com/izumix03/mixlinter
+WORKDIR /go/src/github.com/nrnrk/mixlinter
 COPY . .
 RUN go get -u golang.org/x/tools/go/analysis
 RUN CGO_ENABLED=0 go build -i -o /mixlinter -ldflags "-s -w" ./cmd/mixlinter
